@@ -1,6 +1,20 @@
 describe('Draw Marker', () => {
   const mapSelector = '#map';
 
+  it.only('respects pmIgnore for geojson markers', () => {
+    cy.drawShape('Geojson', true);
+
+    cy.get('@layer').then(layerGroup => {
+
+      console.log(layerGroup)
+
+      layerGroup.eachLayer(layer => {
+        assert.isUndefined(layer.pm)
+      })
+    });
+
+  });
+
   it('removes markers without error', () => {
     cy.window().then(({ map, L }) => {
       const markerLayer = L.geoJson().addTo(map);

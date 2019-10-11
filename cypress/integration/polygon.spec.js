@@ -12,7 +12,7 @@ describe('Draw & Edit Poly', () => {
     cy.hasVertexMarkers(8);
   });
 
-  it('respects pmIgnore', () => {
+  it.only('respects pmIgnore', () => {
     cy.window().then(({ L }) => {
       L.PM.initialize({ optIn: false });
       cy.drawShape('MultiPolygon', true);

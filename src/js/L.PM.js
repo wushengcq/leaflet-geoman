@@ -68,6 +68,8 @@ L.PM = L.PM || {
     function initMarker() {
       this.pm = undefined;
 
+      console.log('init marker', this.options)
+
       if (options.optIn) {
         if (this.options.pmIgnore === false) {
           this.pm = new L.PM.Edit.Marker(this);
@@ -109,6 +111,8 @@ L.PM = L.PM || {
 
     function initPolygon() {
       this.pm = undefined;
+
+      console.log('init polygon', this.options)
 
       if (options.optIn) {
         if (this.options.pmIgnore === false) {

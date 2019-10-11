@@ -49,24 +49,31 @@ Cypress.Commands.add('toolbarButton', name =>
 
 Cypress.Commands.add('drawShape', (shape, ignore) => {
   cy.window().then(({ map, L }) => {
+
+    const draw = (json) => {
+      const layer = L.geoJson(json, { pmIgnore: ignore }).addTo(map);
+      const bounds = layer.getBounds();
+      map.fitBounds(bounds);
+
+      return layer;
+    };
+
     if (shape === 'MultiPolygon') {
       cy.fixture(shape)
         .as('poly')
-        .then(json => {
-          const layer = L.geoJson(json, { pmIgnore: ignore }).addTo(map);
-          const bounds = layer.getBounds();
-          map.fitBounds(bounds);
-        });
+        .then(json => draw(json)).as('layer');
+    }
+
+    if (shape === 'Geojson') {
+      cy.fixture(shape)
+        .as('geo')
+        .then(json => draw(json)).as('layer');
     }
 
     if (shape === 'LineString') {
       cy.fixture(shape)
         .as('poly')
-        .then(json => {
-          const layer = L.geoJson(json, { pmIgnore: ignore }).addTo(map);
-          const bounds = layer.getBounds();
-          map.fitBounds(bounds);
-        });
+        .then(json => draw(json)).as('layer');
     }
 
     if (shape === 'FeatureCollectionWithCircles') {
