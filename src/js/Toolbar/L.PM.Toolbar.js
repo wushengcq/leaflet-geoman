@@ -15,6 +15,7 @@ const Toolbar = L.Class.extend({
     editMode: true,
     dragMode: true,
     cutPolygon: true,
+    cutOverlap: true, //wusheng
     removalMode: true,
     snappingOption: true,
     drawControls: true,
@@ -116,6 +117,7 @@ const Toolbar = L.Class.extend({
         editMode: 'control-icon leaflet-pm-icon-edit',
         dragMode: 'control-icon leaflet-pm-icon-drag',
         cutPolygon: 'control-icon leaflet-pm-icon-cut',
+        cutOverlap: 'control-icon leaflet-pm-icon-cut-overlap', //wusheng
         removalMode: 'control-icon leaflet-pm-icon-delete',
       },
     };
@@ -347,6 +349,28 @@ const Toolbar = L.Class.extend({
       actions: ['finish', 'removeLastVertex', 'cancel'],
     };
 
+    // wusheng
+    const cutOverlapButton = {
+      title: getTranslation('buttonTitles.cutOverlap'),
+      className: 'control-icon leaflet-pm-icon-cut-overlap',
+      jsClass: 'CutOverlap',
+      onClick: () => { },
+      afterClick: (e, ctx) => {
+        // enable polygon drawing mode without snap
+        this.map.pm.Draw[ctx.button._button.jsClass].toggle({
+          snappable: true,
+          cursorMarker: true,
+          allowSelfIntersection: false,
+        });
+      },
+      doToggle: true,
+      toggleStatus: false,
+      disableOtherButtons: true,
+      position: this.options.position,
+      tool: 'edit',
+      actions: ['finish', 'removeLastVertex', 'cancel'],
+    };
+
     const deleteButton = {
       title: getTranslation('buttonTitles.deleteButton'),
       className: 'control-icon leaflet-pm-icon-delete',
@@ -371,6 +395,7 @@ const Toolbar = L.Class.extend({
     this._addButton('editMode', new L.Control.PMButton(editButton));
     this._addButton('dragMode', new L.Control.PMButton(dragButton));
     this._addButton('cutPolygon', new L.Control.PMButton(cutButton));
+    this._addButton('cutOverlap', new L.Control.PMButton(cutOverlapButton));
     this._addButton('removalMode', new L.Control.PMButton(deleteButton));
   },
 
@@ -612,6 +637,7 @@ const Toolbar = L.Class.extend({
       "Edit": "editMode",
       "Drag": "dragMode",
       "Cut": "cutPolygon",
+      "CutOverlap": "cutOverlap",
       "Removal": "removalMode"
     }
   },

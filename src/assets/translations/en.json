@@ -24,6 +24,7 @@
     "editButton": "Edit Layers",
     "dragButton": "Drag Layers",
     "cutButton": "Cut Layers",
+    "cutOverlap": "Cut Overlapping",
     "deleteButton": "Remove Layers",
     "drawCircleMarkerButton": "Draw Circle Marker",
     "snappingButton": "Snap dragged marker to other layers and vertices",

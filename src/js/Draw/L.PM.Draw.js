@@ -37,7 +37,8 @@ const Draw = L.Class.extend({
     this._map = map;
 
     // define all possible shapes that can be drawn
-    this.shapes = ['Marker', 'CircleMarker', 'Line', 'Polygon', 'Rectangle', 'Circle', 'Cut'];
+    this.shapes = ['Marker', 'CircleMarker', 'Line', 'Polygon', 'Rectangle', 'Circle', 'Cut', 'CutOverlap']; //wusheng
+    //this.shapes = ['Marker', 'CircleMarker', 'Line', 'Polygon', 'Rectangle', 'Circle', 'Cut'];
 
     // initiate drawing class for our shapes
     this.shapes.forEach(shape => {
@@ -78,6 +79,7 @@ const Draw = L.Class.extend({
     });
   },
   addControls() {
+    console.log("addControls"); //wusheng
     // add control buttons for our shapes
     this.shapes.forEach(shape => {
       this[shape].addButton();
@@ -94,8 +96,9 @@ const Draw = L.Class.extend({
     return enabledShape;
   },
   _setGlobalDrawMode() {
-    // extended to all PM.Draw shapes
-    if (this._shape === "Cut") {
+    // extended to all PM.Draw shapes    
+    if (this._shape === "Cut" || this._shape === "CutOverlap") {  // wusheng
+    //if (this._shape === "Cut") { 
       Utils._fireEvent(this._map,'pm:globalcutmodetoggled', {
         enabled: !!this._enabled,
         map: this._map,
@@ -148,6 +151,7 @@ const Draw = L.Class.extend({
     return this[name];
   },
   _getShapeFromBtnName(name) {
+    console.log("_getShapeFromBtnName : " + name);
     const shapeMapping = {
       "drawMarker": "Marker",
       "drawCircle": "Circle",
@@ -158,6 +162,7 @@ const Draw = L.Class.extend({
       "editMode": "Edit",
       "dragMode": "Drag",
       "cutPolygon": "Cut",
+      "cutOverlap": "CutOverlap",  // wusheng
       "removalMode": "Removal"
     };
 
